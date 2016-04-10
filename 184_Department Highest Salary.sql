@@ -1,9 +1,14 @@
 /*184. Department Highest Salary*/
 
-Select Salary as Salary, E1.Name as Employee, D.Name as Department
-From Employee E1
-INNER JOIN Department D
-ON (E1.DepartmentId = D.Id)
-Where Salary IN (Select max(Salary) as Salary
-	From Employee E
-	Group By DepartmentId)
+Select Con.Salary as Salary, Dept.Name as Department, Emp.Name as Employee 
+From Employee Emp
+
+INNER JOIN
+ (Select DepartmentId, Max(Salary) as Salary 
+		 From Employee 
+		 Group by (DepartmentId)) AS Con
+ON(Con.DepartmentId = Emp.DepartmentId AND Con.Salary = Emp.Salary)
+
+INNER JOIN 
+Department Dept
+ON (Emp.DepartmentId = Dept.Id)
